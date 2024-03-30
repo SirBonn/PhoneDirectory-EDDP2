@@ -18,14 +18,6 @@ private:
 public:
     LinkedList() : head(nullptr), ptr(nullptr), size(0) {}
 
-    ~LinkedList() {
-        while (head != nullptr) {
-            SimpleNode<T> *temp = head;
-            head = head->getPtr();
-            delete temp;
-        }
-    }
-
     void add(T *field) {
         SimpleNode<T> *newNode = new SimpleNode<T>(field);
 
@@ -40,6 +32,7 @@ public:
         }
         size++;
     }
+
 
     T *getFirst() {
         if (head == nullptr) {
@@ -61,6 +54,20 @@ public:
         return size == 0;
     }
 
+    SimpleNode<T>* gethead(){
+        return head;
+    }
+
+    ~LinkedList() {
+        SimpleNode<T> *temp = head;
+        while (temp != nullptr) {
+            head = head->getPtr();
+            delete temp;
+            temp = head;
+        }
+    }
+
+//    ~LinkedList() = default;
 
 };
 

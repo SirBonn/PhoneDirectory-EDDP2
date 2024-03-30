@@ -30,6 +30,9 @@ public:
     void setData(T *data) {
         this->data = data;
     }
+
+    ~SimpleNode() = default;
+
 };
 
 #endif //PHONEDIRECTORY_SIMPLENODE_H
