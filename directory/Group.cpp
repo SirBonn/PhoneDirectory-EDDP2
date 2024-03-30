@@ -3,38 +3,10 @@
 //
 
 #include "Group.h"
-
-
-void Group::addField(Field<int> *field) {
-    integerFields.add(field);
-}
-
-Field<int> *Group::getIntField() {
-    return integerFields.getFirst();
-}
-
-void Group::addField(Field<std::string> *field) {
-    stringFields.add(field);
-}
-
-Field<std::string> *Group::getStrField() {
-    return stringFields.getFirst();
-}
-
-void Group::addField(Field<char> *field) {
-    charFields.add(field);
-}
-
-Field<char> *Group::getCharField() {
-    return charFields.getFirst();
-}
-
-bool Group::isEmpty() {
-    return integerFields.isEmpty() && stringFields.isEmpty() && charFields.isEmpty();
-}
+#include "../structures/tree/TreeInteger.h"
 
 int Group::getCuantityFields() {
-    return integerFields.getSize() + stringFields.getSize() + charFields.getSize();
+    return tableAVL->getsize();
 }
 
 std::string Group::getGroupName() {
@@ -45,21 +17,25 @@ void Group::setGroupName(std::string groupName) {
     this->groupKey = groupName;
 }
 
-bool Group::isIntFieldEmpty() {
-    return integerFields.isEmpty();
+
+std::string Group::getKey() {
+    return groupKey;
 }
 
-bool Group::isCharFieldEmpty() {
-    return charFields.isEmpty();
+void Group::addField(Field field) {
+    fields->add(&field);
+    if(field.getFieldType() == "INTEGER"){
+        TreeInteger* treeInteger = new TreeInteger(field.getKey());
+        tableAVL->insert(treeInteger);
+    }
+//    tableAVL->insert(new TreeAVL<Field>(field.getKey(), field.getFieldType()));
 }
 
-bool Group::isStrFieldEmpty() {
-    return stringFields.isEmpty();
+
+TableLL<TreeAVL<Field>> *Group::getTableAVL() {
+    return tableAVL;
 }
 
-
-
-
-
-
-
+LinkedList<Field>* Group::getFields() {
+    return fields;
+}

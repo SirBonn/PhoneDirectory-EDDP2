@@ -8,49 +8,51 @@
 
 #include <string>
 #include "../structures/linkedList/linkedList.h"
-#include "Field.h"
+#include "Fields/Field.h"
+#include "../structures/Hash/TableLL.h"
+#include "../structures/nodes/NodeAVL.h"
+#include "../structures/tree/TreeAVL.h"
+
 
 class Group {
 
 private:
     std::string groupKey;
-    LinkedList<Field<int>> integerFields;
-    LinkedList<Field<std::string>> stringFields;
-    LinkedList<Field<char>> charFields;
+    LinkedList<Field> *fields;
+    TableLL<TreeAVL<Field>> *tableAVL;
 public:
     //constructors
-    Group(std::string groupName) : groupKey(groupName) {};
+    Group() = default;
+
+    Group(std::string groupName) : groupKey(groupName) {
+        fields = new LinkedList<Field>();
+        tableAVL = new TableLL<TreeAVL<Field>>(5);
+    };
 
     //methods
-    void addField(Field<int> *field);
 
-    Field<int> *getIntField();
+    void addField(Field field);
 
-    void addField(Field<std::string> *field);
+    std::string getKey();
 
-    Field<std::string> *getStrField();
-
-    void addField(Field<char> *field);
-
-    Field<char> *getCharField();
-
-    bool isEmpty();
+    bool fieldsEmpty();
 
     int getCuantityFields();
 
-    bool isIntFieldEmpty();
 
-    bool isStrFieldEmpty();
-
-    bool isCharFieldEmpty();
-
-    ~Group() = default;
+    //destructor
+    ~Group() {
+        fields->~LinkedList();
+    };
 
     //getters and setters
     std::string getGroupName();
 
     void setGroupName(std::string groupName);
 
+    TableLL<TreeAVL<Field>> *getTableAVL();
+
+    LinkedList<Field>* getFields();
 };
 
 
