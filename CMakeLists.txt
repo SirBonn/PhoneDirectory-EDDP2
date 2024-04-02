@@ -12,11 +12,8 @@ add_executable(PhoneDirectory main.cpp
         directory/Group.h
         "structures/Hash/TableLL.h"
         "structures/Hash/Function.h"
-        directory/Fields/Field.h
+        directory/Field.h
         structures/doubleLinkedList/DoubleLinkedList.h
-        directory/Fields/FieldString.h
-        directory/Fields/FieldInt.h
-        directory/Fields/FieldChar.h
         structures/tree/TreeAVL.h
         utils/Export/DataManager.cpp
         utils/Export/DataManager.h
@@ -24,5 +21,6 @@ add_executable(PhoneDirectory main.cpp
         utils/Graphs/GraphvizManager.h
         structures/doubleLinkedList/DoubleListAVL.h
         structures/tree/TreeInteger.h
-        structures/tree/Tree.h
+        structures/tree/TreeString.h
+        structures/tree/TreeChar.h
 )
