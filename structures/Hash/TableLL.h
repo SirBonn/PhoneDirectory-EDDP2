@@ -113,12 +113,23 @@ public:
         return cuantity;
     }
 
-    ~TableLL() {
+    void getReportsGrop() {
         for (int i = 0; i < size; i++) {
-            if (buckets[i] != nullptr) {
-                delete buckets[i];
+            DoubleNode<T> *currentNode = buckets->searchIndex(i);
+            if(currentNode->getData() != NULL) {
+                std::cout<< "Nombre del grupo: " <<currentNode->getData()->getKey()<<std::endl;
+                std::cout<< "Cantidad de campos en el grupo: "<<currentNode->getData()->getCuantityFields()<<std::endl;
+                std::cout<<"--------------------------------------------"<<std::endl;
             }
         }
+    }
+
+    DoubleLinkedList<T> *getBuckets() {
+        return buckets;
+    }
+
+    ~TableLL() {
+        buckets->~DoubleLinkedList();
     }
 
 };

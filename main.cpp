@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <conio.h>
 #include "string"
 #include "directory/Group.h"
 #include "structures/Hash/TableLL.h"
@@ -15,12 +16,24 @@ int main() {
 
     TableLL<Group> *table = new TableLL<Group>(5);
     bool exit = false;
-
+    std::string log = "";
     while (!exit) {
         std::string entrada;
-        std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ";
+
+        std::cout << "Bienvenido al sistema de directorio de contactos." << std::endl;
+        std::cout << "------- Comandos disponibles ----- " << std::endl;
+        std::cout << "-> ADD NEW-GROUP (nombreGrupo) FIELDS (nombreCampo1 tipoDato1, nombreCampo2 tipoDato2, ...);" << std::endl;
+        std::cout << "-> ADD CONTACT (nombreGrupo) FIELDS (nombreCampo1 valorCampo1, nombreCampo2 valorCampo2, ...);" << std::endl;
+        std::cout << "-> FIND CONTACT (nombreGrupo) CONTACT-FIELD (nombreCampo = valorCampo);" << std::endl;
+        std::cout << "-> GRAPH ALL TABLES;" << std::endl;
+        std::cout << "-> GRAPH TABLE (nombreGrupo);" << std::endl;
+        std::cout << "-> VIEW REPORTS;" << std::endl;
+        std::cout << "-> EXIT;" << std::endl;
+
+
         std::cout << "Ingrese el comando: ";
         std::getline(std::cin, entrada);
+        log += entrada + "\n";
         std::replace(entrada.begin(), entrada.end(), '(', ' ');
         std::replace(entrada.begin(), entrada.end(), ')', ' ');
         std::replace(entrada.begin(), entrada.end(), '=', ' ');
@@ -191,6 +204,55 @@ int main() {
                 }
             }
             table->printHashtable(table);
+        } else if (action == "VIEW" && sentence == "REPORTS") {
+
+            int option;
+            bool tmpExit = true;
+            while (tmpExit) {
+                std::cout << "ingresa la opcion de reportes a ver:" << std::endl;
+                std::cout << "1. Cantidad de grupos en el sistema" << std::endl;
+                std::cout << "2. cantidad de campos por grupo" << std::endl;
+                std::cout << "3. Log del sistema" << std::endl;
+                std::cout << "0. Salir de reportes" << std::endl;
+                std::cout << "Opcion --> ";
+                std::cin >> option;
+
+                switch (option) {
+                    case 1:
+                        std::cout << "------- Cantidad de grupos -------\n" << std::endl << table->getCuantity()
+                                  << " de "
+                                  << table->getsize();
+                        std::cout << "Presione una tecla para continuar...";
+                        getch();
+                        std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ";
+                        break;
+                    case 2:
+                        std::cout << "\n\n------- Cantidad de campos por Grupo -------\n" << std::endl;
+                        table->getReportsGrop();
+                        std::cout << "Presione una tecla para continuar...";
+                        getch();
+                        std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ";
+                        break;
+                    case 3:
+                        std::cout << "------- LOG del sistema -------\n" << log << std::endl;
+                        std::cout << "Presione una tecla para continuar...";
+                        getch();
+                        std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ";
+                        break;
+                    case 0:
+                        tmpExit = false;
+                        break;
+                    default:
+                        std::cout << "Opcion no valida" << std::endl;
+                        std::cout << "Presione una tecla para continuar...";
+                        getch();
+                        std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ";
+                        break;
+                }
+
+
+            }
+
         } else if (action == "EXIT" || action == "exit") {
             exit = true;
             return 0;
@@ -201,6 +263,7 @@ int main() {
 
         std::cout << "Presione una tecla para continuar...";
         getch();
+        std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n ";
 
     }
 
