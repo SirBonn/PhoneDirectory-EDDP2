@@ -6,6 +6,8 @@
 #define PHONEDIRECTORY_NODEAVL_H
 
 #include <string>
+#include <random>
+#include <chrono>
 
 template<typename T>
 class NodeAVL {
@@ -13,6 +15,7 @@ class NodeAVL {
 private:
 
     T *data;
+    std::string *key;
     NodeAVL<T> *left;
     NodeAVL<T> *right;
     NodeAVL<T> *parent;
@@ -25,9 +28,11 @@ public:
 
 //constructors
 
-    NodeAVL( T *data) :  data(data), left(nullptr), right(nullptr), parent(nullptr),
-                               factorEq(heightRight - heightLeft), heightLeft(0),
-                               heightRight(0) {};
+    NodeAVL(T *data) : data(data), left(nullptr), right(nullptr), parent(nullptr),
+                       factorEq(heightRight - heightLeft), heightLeft(0),
+                       heightRight(0) {
+        key = generateKey();
+    };
 
     //methods
     void updateFactorEq();
@@ -36,15 +41,20 @@ public:
 
     void updateHeightRight();
 
-    void updateHeight();
+    void updateHeight() {};
 
     //gettersNSetters
     T *getData() const {
         return data;
     };
 
+
     void setData(T *_data) {
         data = _data;
+    };
+
+    std::string *getKey() const {
+        return key;
     };
 
     NodeAVL<T> *getLeft() const {
@@ -94,6 +104,13 @@ public:
     void setHeightRight(int _heightRight) {
         heightRight = _heightRight;
     };
+
+     std::string* generateKey() {
+        auto now = std::chrono::system_clock::now();
+        auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
+        std::string key = "Key_" + std::to_string(timestamp);
+        return &key;
+    }
 
 };
 

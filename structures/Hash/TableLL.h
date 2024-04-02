@@ -9,6 +9,7 @@
 #include "Function.h"
 #include "../../directory/Group.h"
 #include "../doubleLinkedList/DoubleLinkedList.h"
+#include "../../utils/Graphs/GraphvizManager.h"
 
 template<typename T>
 class TableLL {
@@ -54,7 +55,7 @@ public:
         }
     }
 
-    T* searchKey(std::string key) {
+    T *searchKey(std::string key) {
         int index = Function<T>::getIndex(key, size);
         DoubleNode<T> *temp = buckets->searchIndex(index);
 
@@ -76,6 +77,41 @@ public:
         return size;
     }
 
+    void printHashtable(TableLL<T> *hashtable) {
+        GraphvizManager graph("HashTableGraph");
+
+
+        for (int i = 0; i < hashtable->getsize(); i++) {
+            DoubleNode<T> *currentNode = hashtable->buckets->searchIndex(i);
+
+            while (currentNode != nullptr) {
+                T *element = currentNode->getData();
+                std::string key = "";
+
+                if (element != NULL) {
+                    key = element->getKey();
+                    std::string nodeLabel =  key;
+                    graph.addNode(nodeLabel, key, "lightblue", "box");
+
+                    element->printGroup(&graph);
+                    currentNode = currentNode->getNext();
+                    break;
+                } else {
+                    std::string nodeLabel = "Node_" + i;
+                    graph.addNode(nodeLabel, "empty", "red", "box");
+                    currentNode = currentNode->getNext();
+                    break;
+                }
+
+            }
+        }
+
+        graph.generateGraph();
+    }
+
+    int getCuantity() {
+        return cuantity;
+    }
 
     ~TableLL() {
         for (int i = 0; i < size; i++) {

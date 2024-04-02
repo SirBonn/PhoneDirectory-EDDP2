@@ -13,7 +13,7 @@ private:
 
 public:
     //constructors
-    SimpleNode(T *data): data(data), ptr(nullptr){};
+    SimpleNode(T* data): data(data), ptr(nullptr){};
     //getters n setters
     void setPtr(SimpleNode<T> *ptr) {
         this->ptr = ptr;

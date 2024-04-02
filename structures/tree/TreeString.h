@@ -1,34 +1,35 @@
 //
-// Created by ADMIN on 29/03/2024.
+// Created by ADMIN on 31/03/2024.
 //
 
-#ifndef PHONEDIRECTORY_TREEINTEGER_H
-#define PHONEDIRECTORY_TREEINTEGER_H
+#ifndef PHONEDIRECTORY_TREESTRING_H
+#define PHONEDIRECTORY_TREESTRING_H
 
-#include <string>
+#include "../nodes/NodeAVL.h"
 #include "TreeAVL.h"
 
-class TreeInteger : public TreeAVL {
+class TreeString : public TreeAVL {
 private:
-    NodeAVL<int> *root;
-    NodeAVL<int> *newNode;
-    NodeAVL<int> *scanner;
-    NodeAVL<int> *parentAB;
-    NodeAVL<int> *grandParentAB;
-    NodeAVL<int> *childAB;
-    NodeAVL<int> *grandChildAB;
-    NodeAVL<int> *predecessor;
+    NodeAVL<std::string> *root;
+    NodeAVL<std::string> *newNode;
+    NodeAVL<std::string> *scanner;
+    NodeAVL<std::string> *parentAB;
+    NodeAVL<std::string> *grandParentAB;
+    NodeAVL<std::string> *childAB;
+    NodeAVL<std::string> *grandChildAB;
+    NodeAVL<std::string> *predecessor;
     std::string keySearcher;
     int size;
 
 public:
 
-    TreeInteger(std::string key) : TreeAVL(key) {
+
+    TreeString(std::string key) : TreeAVL(key) {
         root = nullptr;
         size = 0;
     }
 
-    void updateFactors(NodeAVL<int> *node) {
+    void updateFactors(NodeAVL<std::string> *node) {
         while (node != nullptr) {
 //            node->updateHeight();
 //            node->updateFactorEq();
@@ -36,7 +37,7 @@ public:
         }
     }
 
-    void balance(NodeAVL<int> *node) {
+    void balance(NodeAVL<std::string> *node) {
         while (node != nullptr) {
             if (node->getFactorEq() == 2 || node->getFactorEq() == -2) {
                 if (node->getFactorEq() == 2) {
@@ -59,8 +60,8 @@ public:
         }
     }
 
-    void insert(int *data) {
-        newNode = new NodeAVL<int>(std::move(data));
+    void insert(std::string *data) {
+        newNode = new NodeAVL<std::string>(std::move(data));
         newNode->setData(std::move(data));
 
         if (root == nullptr) {
@@ -70,7 +71,7 @@ public:
         } else {
             scanner = root;
             while (true) {
-                if (data[0] < scanner->getData()[0]) {
+                if (data < scanner->getData()) {
                     if (scanner->getLeft() == nullptr) {
                         scanner->setLeft(newNode);
                         newNode->setParent(scanner);
@@ -96,7 +97,7 @@ public:
         }
     }
 
-    void rotateLeft(NodeAVL<int> *node) {
+    void rotateLeft(NodeAVL<std::string> *node) {
 
         parentAB = node->getParent();
         childAB = node->getRight();
@@ -124,7 +125,7 @@ public:
 
     }
 
-    void rotateRight(NodeAVL<int> *node) {
+    void rotateRight(NodeAVL<std::string> *node) {
 
         parentAB = node->getParent();
         childAB = node->getLeft();
@@ -152,11 +153,12 @@ public:
 
     }
 
-    std::string* searchValueKey(int *value) {
+    //search value in tree
+    std::string* searchValueKey(std::string *value) {
         scanner = root;
         while (scanner != nullptr) {
             if (value == scanner->getData()) {
-                return scanner->getKey();
+                return static_cast<std::string*>(scanner->getKey());
             } else if (value < scanner->getData()) {
                 scanner = scanner->getLeft();
             } else {
@@ -167,7 +169,7 @@ public:
     }
 
 
-    NodeAVL<int> *searchkey(std::string *key) {
+    NodeAVL<std::string> *searchkey(std::string *key) {
         scanner = root;
         while (scanner != nullptr) {
             if (key == scanner->getKey()) {
@@ -181,35 +183,38 @@ public:
         return nullptr;
     }
 
-    void graphAVL(GraphvizManager *graphvizManager, std::string parentID) {
-        graphInOrderHelper(root, graphvizManager);
 
+    void graphAVL(GraphvizManager *graphvizManager, std::string parentID) {
+
+        graphInOrderHelper(root, graphvizManager);
         graphvizManager->addUnionNode(parentID, std::to_string(reinterpret_cast<uintptr_t>(root->getData())));
 
     }
 
-    void graphInOrderHelper(NodeAVL<int>* node, GraphvizManager *graph) {
+    void graphInOrderHelper(NodeAVL<std::string>* node, GraphvizManager *graph) {
         if (node != nullptr) {
 
             graphInOrderHelper(node->getLeft(), graph);
 
-            std::string nodeID = std::to_string(reinterpret_cast<uintptr_t>(node->getData()));
+            std::string nodeID =std::to_string(reinterpret_cast<uintptr_t>(node->getData()));
             //graph->addNode(nodeID, std::to_string(reinterpret_cast<uintptr_t>(node->getData())), "black", "circle");
 
             if (node->getRight() != nullptr) {
-                std::string rightID =std::to_string(reinterpret_cast<uintptr_t>(node->getRight()->getData()));
+                std::string rightID = std::to_string(reinterpret_cast<uintptr_t>(node->getRight()));
                 graph->addUnionNode(nodeID, rightID);
             }
 
             if (node->getLeft() != nullptr) {
-                std::string leftID =std::to_string(reinterpret_cast<uintptr_t>(node->getLeft()->getData()));
+                std::string leftID = std::to_string(reinterpret_cast<uintptr_t>(node->getLeft()));
                 graph->addUnionNode(nodeID, leftID);
             }
 
             graphInOrderHelper(node->getRight(), graph);
         }
+
+
     }
 
-};
 
-#endif //PHONEDIRECTORY_TREEINTEGER_H
+};
+#endif //PHONEDIRECTORY_TREESTRING_H
