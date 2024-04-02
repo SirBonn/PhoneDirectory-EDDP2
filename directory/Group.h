@@ -8,7 +8,7 @@
 
 #include <string>
 #include "../structures/linkedList/linkedList.h"
-#include "Fields/Field.h"
+#include "Field.h"
 #include "../structures/Hash/TableLL.h"
 #include "../structures/nodes/NodeAVL.h"
 #include "../structures/tree/TreeAVL.h"
@@ -19,19 +19,20 @@ class Group {
 private:
     std::string groupKey;
     LinkedList<Field> *fields;
-    TableLL<TreeAVL<Field>> *tableAVL;
+    TableLL<TreeAVL> *tableAVL;
+
 public:
     //constructors
     Group() = default;
 
     Group(std::string groupName) : groupKey(groupName) {
         fields = new LinkedList<Field>();
-        tableAVL = new TableLL<TreeAVL<Field>>(5);
+        tableAVL = new TableLL<TreeAVL>(5);
     };
 
     //methods
 
-    void addField(Field field);
+    void addField(Field *field);
 
     std::string getKey();
 
@@ -39,6 +40,7 @@ public:
 
     int getCuantityFields();
 
+    void printGroup(GraphvizManager *graphvizManager);
 
     //destructor
     ~Group() {
@@ -50,7 +52,7 @@ public:
 
     void setGroupName(std::string groupName);
 
-    TableLL<TreeAVL<Field>> *getTableAVL();
+    TableLL<TreeAVL> *getTableAVL();
 
     LinkedList<Field>* getFields();
 };
